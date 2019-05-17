@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+
+	<select id="selectUser" resultType="java.lang.String">
+		select id from a where id = '100'
+	</select>
+	
+	<select id="selectList" parameterType="java.util.List" resultType="java.util.Map">
+		select *  from a where id REGEXP
+		<foreach collection="list" index="index" item="item" open="(" separator="|" close=")">
+			#{item.id}
+		</foreach>
+	</select>
+
+	<select id="selectOne" resultType="java.lang.String" parameterType="MyBlobTypeHandler">
+
+		select id from a where 1 =1
+		<if test='s==1'>
+			and id = '100'
+		</if>
+	</select>
+</mapper>
