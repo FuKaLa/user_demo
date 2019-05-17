@@ -248,8 +248,8 @@ public class UserController {
         //String result = Utils.doPostJson("https://api.weixin.qq.com/card/delete?access_token=21_CMT6IxfYEVK3dYFstoXoCgAeU47q639W_a45f18jJH268xqX2xQfck2JxI6jm-JNkdApD5odEjWZvmX1PXmXo8gQCir1aRgjqw7BG9L8WKDpNnjWwXy5H1-5eU5Jsl2zp6jPCbiHxDCkGtl-NAWfAFAERN", JSONObject.toJSONString(map1));
         //String result = Utils.send("https://api.weixin.qq.com/card/delete?access_token=21_XNbcgFpbUqALtENWbiCjDin_0xwq1ucBv8KK3dRwWSOtce_o51pqo7lK16L5ic09dVHV8DPOu5hGUOgQL0283O2Pc9SxTliig43oX-mxf8EhZ11xfhcZ7CgwEl1WO9fFxpzAvia9eskTjqmHWZBhAGADGI",map1);
         //System.out.println(result);
-        String ECARD_URL = SinochemConfig.getString("sinochem.ecard.url");
-        System.out.println(ECARD_URL);
+        String ecard_url = SinochemConfig.getString("sinochem.ecard.url");
+        System.out.println(ecard_url);
 
 
                 /*String time = "201-02-16T08:17:21.000+0000";
