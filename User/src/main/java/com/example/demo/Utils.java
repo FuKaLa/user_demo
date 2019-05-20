@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.config.CheckSumBuilder;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -15,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,15 +41,17 @@ public class Utils {
 
         System.out.println("请求地址：" + url);
         System.out.println("请求参数：" + nvps.toString());
+        String time = String.valueOf(new Date().getTime());
 
         //设置header信息
         //指定报文头【Content-type】、【User-Agent】
-        httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
+        httpPost.setHeader("Content-type", "application/json");
         httpPost.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
         httpPost.setHeader("x-application","KAPOS");
-        httpPost.setHeader("x-service","/order/query");
-        httpPost.setHeader("x-token",".3e2_UajfP5HyyRWTKMk4xH9su3Vw0aRcF-IAslkpRwOsSNhbysEBeYU0iKKNtl8ZBS8I8Cp1TOg3d98ijcv_DgDllK6C_b_c0-7wrSNmre4hjBKNlOtTRDfN99zX3qVel7pCAMxpyZMq-OLkA_3QDaCWx5GEIezFagV-Kn-g_YA=");
-        httpPost.setHeader("appKey","test_kaorderapi");
+        httpPost.setHeader("appKey","1ddb366df3cecf01e5bff296a152ef8c");
+        httpPost.setHeader("Nonce","12340");
+        httpPost.setHeader("CurTime",time);
+        httpPost.setHeader("CheckSum", CheckSumBuilder.getCheckSum("723b05468ae9","12340",time));
         //执行请求操作，并拿到结果（同步阻塞）
         CloseableHttpResponse response = client.execute(httpPost);
         //获取结果实体
@@ -59,24 +63,20 @@ public class Utils {
     }
 
     public static String doPostJson(String url, String parameterData) throws Exception {
-
-
-
-        // System.setProperty("http.proxyHost", "proxy1.bj.petrochina");
-        // System.setProperty("http.proxyPort", "8080");
-
         URL localURL = new URL(url);
         URLConnection connection = localURL.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
-
+        String time = String.valueOf(new Date().getTime());
         httpURLConnection.setDoOutput(true);
         httpURLConnection.setDoInput(true);
         httpURLConnection.setRequestMethod("POST");
         httpURLConnection.setRequestProperty("Accept", "application/json");
         httpURLConnection.setRequestProperty("Accept-Charset", "utf-8");
         httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-        httpURLConnection.setRequestProperty("Content-Length", String.valueOf(parameterData.length()));
-        httpURLConnection.setRequestProperty("appKey","test_kaorderdata");
+        httpURLConnection.setRequestProperty("appKey","1ddb366df3cecf01e5bff296a152ef8c");
+        httpURLConnection.setRequestProperty("Nonce","12340");
+        httpURLConnection.setRequestProperty("CurTime",time);
+        httpURLConnection.setRequestProperty("CheckSum", CheckSumBuilder.getCheckSum("723b05468ae9","12340",time));
         OutputStream outputStream = null;
         OutputStreamWriter outputStreamWriter = null;
         InputStream inputStream = null;
@@ -87,7 +87,7 @@ public class Utils {
         try {
 
             outputStream = httpURLConnection.getOutputStream();
-            outputStreamWriter = new OutputStreamWriter(outputStream, "utf-8");
+            outputStreamWriter = new OutputStreamWriter(outputStream);
 
             outputStreamWriter.write(parameterData);
             outputStreamWriter.flush();
@@ -97,7 +97,7 @@ public class Utils {
             }
 
             inputStream = httpURLConnection.getInputStream();
-            inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            inputStreamReader = new InputStreamReader(inputStream);
             reader = new BufferedReader(inputStreamReader);
 
             while ((tempLine = reader.readLine()) != null) {

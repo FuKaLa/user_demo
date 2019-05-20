@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
+
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Utils;
 import com.example.demo.entity.IncomeSumPojo;
-import com.example.demo.entity.Invoice;
-import com.example.demo.service.UserService;
-import com.example.demo.utils.SinochemConfig;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -13,33 +12,38 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.netease.vcloud.auth.BasicCredentials;
+import com.netease.vcloud.auth.Credentials;
+import com.netease.vcloud.client.VcloudClient;
+import com.netease.vcloud.upload.demo.UploadVideoDemo;
+import com.netease.vcloud.upload.param.QueryVideoIDorWatermarkIDParam;
+import com.netease.vcloud.util.FileUtil;
+import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/client")
 public class UserController {
-
+    public static final Logger logger = Logger.getLogger(UserController.class);
     /*@Autowired
     private UserService userService;
 */
@@ -66,6 +70,69 @@ public class UserController {
 
         return modelAndView;
     }
+
+    @RequestMapping("/callback")
+    public void callback(@RequestBody JSONObject jsonObject) {
+        System.out.println(jsonObject);
+    }
+
+
+    @RequestMapping("/filePath")
+    public void filePath() {
+        String appKey = "1ddb366df3cecf01e5bff296a152ef8c";
+        String appSecret = "5025fb10757f";
+
+        Credentials credentials;
+        credentials = new BasicCredentials(appKey, appSecret);
+        VcloudClient vclient = new VcloudClient(credentials);
+
+
+        try {
+            /*请输入上传文件路径*/
+            String filePath = "E:\\upload\\test.mp4";
+            //String filePath = "e:\\image_20160711145925.png";
+
+            Map<String, Object> initParamMap = new HashMap<String, Object>();
+			/*输入上传文件的相关信息 */
+			/* 上传文件的原始名称（包含后缀名） 此参数必填*/
+            initParamMap.put("originFileName", FileUtil.getFileName(filePath));
+		     /* 用户命名的上传文件名称  此参数非必填*/
+            initParamMap.put("userFileName", "test.mp4");
+
+		     /* 视频所属的类别ID（不填写为默认分类）此参数非必填*/
+            // initParamMap.put("typeId", new Long(1056));
+
+		     /* 频所需转码模板ID（不填写为默认模板） 此参数非必填*/
+            // initParamMap.put("presetId", new Long(2007));
+
+		     /* 转码成功后回调客户端的URL地址（需标准http格式）  此参数非必填*/
+            //initParamMap.put("callbackUrl", "");
+
+		     /* 上传视频的描述信息  此参数非必填*/
+            //initParamMap.put("description", "love.mp4");
+
+		     /* 上传视频的视频水印Id 此参数非必填*/
+            //initParamMap.put("watermarkId", new Long(1));
+
+            /** 上传成功后回调客户端的URL地址（需标准http格式）   此参数非必填*/
+
+            initParamMap.put("uploadCallbackUrl", "http://t-kshop.test.xhjiayou.cn/usercore/getStationByCardNo");
+
+            /** 用户自定义信息，会在上传成功或转码成功后通过回调返回给用户    此参数非必填 */
+            // initParamMap.put("userDefInfo", null);
+
+
+            QueryVideoIDorWatermarkIDParam queryVideoIDParam = vclient.uploadVideo(filePath, initParamMap);
+            if (null != queryVideoIDParam) {
+                logger.info("[UploadDemo] upload video successfully and the vid is " + queryVideoIDParam.getRet().getList().get(0).getVid());
+                logger.info("[UploadDemo] upload video successfully and the imgid is " + queryVideoIDParam.getRet().getList().get(0).getImgId());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /*public static void main(String [] args){
         try{
             Class.forName("oracle.jdbc.OracleDriver");
@@ -224,6 +291,16 @@ public class UserController {
         if(!"0".equals(msg.getString("OPEN_TICKET_TYPE")) && !"1".equals(msg.getString("OPEN_TICKET_TYPE"))){
             System.out.println("11111111");
         }*/
+        String url = "http://vcloud.163.com/app/vod/upload/init";
+        Map map = new HashMap();
+        map.put("originFileName","text.mp4");
+        map.put("userFileName","text.mp4");
+        String returnString = Utils.doPostJson(url,JSONObject.toJSONString(map));
+        System.out.println(JSONObject.parseObject(returnString));
+
+        String uri = "http://wanproxy.127.net/lbs?version=1.0&bucketname="+JSONObject.parseObject(returnString).getString("bucket");
+        String returnS = Utils.doPostJson(uri,JSONObject.toJSONString(map));
+        System.out.println(returnS);
 
         //List<Invoice.RequestBean> cards = invoice.getCards();
         //Invoice.RequestBean requestBean = cards.get(0);
@@ -248,8 +325,10 @@ public class UserController {
         //String result = Utils.doPostJson("https://api.weixin.qq.com/card/delete?access_token=21_CMT6IxfYEVK3dYFstoXoCgAeU47q639W_a45f18jJH268xqX2xQfck2JxI6jm-JNkdApD5odEjWZvmX1PXmXo8gQCir1aRgjqw7BG9L8WKDpNnjWwXy5H1-5eU5Jsl2zp6jPCbiHxDCkGtl-NAWfAFAERN", JSONObject.toJSONString(map1));
         //String result = Utils.send("https://api.weixin.qq.com/card/delete?access_token=21_XNbcgFpbUqALtENWbiCjDin_0xwq1ucBv8KK3dRwWSOtce_o51pqo7lK16L5ic09dVHV8DPOu5hGUOgQL0283O2Pc9SxTliig43oX-mxf8EhZ11xfhcZ7CgwEl1WO9fFxpzAvia9eskTjqmHWZBhAGADGI",map1);
         //System.out.println(result);
-        String ecard_url = SinochemConfig.getString("sinochem.ecard.url");
-        System.out.println(ecard_url);
+        /*String ecard_url = SinochemConfig.getString("sinochem.ecard.url");
+        System.out.println(ecard_url);*/
+       /* Credentials credentials = new BasicCredentials("3541f1223f6b408ab5f5d1896ae02ed9", "");
+        VcloudClient vclient = new VcloudClient(credentials);*/
 
 
                 /*String time = "201-02-16T08:17:21.000+0000";
