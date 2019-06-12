@@ -128,4 +128,75 @@ public class Utils {
         return resultBuffer.toString();
     }
 
+    public static String doPostJson1(String url, String parameterData) throws Exception {
+
+
+
+        // System.setProperty("http.proxyHost", "proxy1.bj.petrochina");
+        // System.setProperty("http.proxyPort", "8080");
+
+        URL localURL = new URL(url);
+        URLConnection connection = localURL.openConnection();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
+
+        httpURLConnection.setDoOutput(true);
+        httpURLConnection.setDoInput(true);
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setRequestProperty("Accept", "application/json");
+        httpURLConnection.setRequestProperty("Accept-Charset", "utf-8");
+        httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+        httpURLConnection.setRequestProperty("Content-Length", String.valueOf(parameterData.length()));
+        httpURLConnection.setRequestProperty("appKey","test_kaorderdata");
+        OutputStream outputStream = null;
+        OutputStreamWriter outputStreamWriter = null;
+        InputStream inputStream = null;
+        InputStreamReader inputStreamReader = null;
+        BufferedReader reader = null;
+        StringBuffer resultBuffer = new StringBuffer();
+        String tempLine = null;
+        try {
+
+            outputStream = httpURLConnection.getOutputStream();
+            outputStreamWriter = new OutputStreamWriter(outputStream, "utf-8");
+
+            outputStreamWriter.write(parameterData);
+            outputStreamWriter.flush();
+
+            if (httpURLConnection.getResponseCode() >= 300) {
+                throw new Exception("HTTP Request is not success, Response code is " + httpURLConnection.getResponseCode());
+            }
+
+            inputStream = httpURLConnection.getInputStream();
+            inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            reader = new BufferedReader(inputStreamReader);
+
+            while ((tempLine = reader.readLine()) != null) {
+                resultBuffer.append(tempLine);
+            }
+
+        } finally {
+            if (outputStreamWriter != null) {
+                outputStreamWriter.close();
+            }
+
+            if (outputStream != null) {
+                outputStream.close();
+            }
+
+            if (reader != null) {
+                reader.close();
+            }
+
+            if (inputStreamReader != null) {
+                inputStreamReader.close();
+            }
+
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+        return resultBuffer.toString();
+    }
+
+
 }

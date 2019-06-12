@@ -1,9 +1,18 @@
 package com.example.demo.utils;
 
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-public class SinochemConfig {
-    private static Configuration config = null;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+public class RedisConfig {
+
+    /**
+     * redis配置key
+     */
+
+    private static org.apache.commons.configuration.Configuration config = null;
     /**
      * 配置文件名称
      */
@@ -34,11 +43,18 @@ public class SinochemConfig {
         config = prop;
     }
 
+    public static void main(String[] args) {
+        String[] strArray = getStringArray(RedisConstant.REDIS_POOL);
+        System.out.println(strArray[0] + strArray.length);
+    }
+
     static {
         try {
             config = new PropertiesConfiguration(configfile);
-        } catch (Exception e) {
+        } catch (ConfigurationException e) {
             e.printStackTrace();
         }
     }
+
+
 }

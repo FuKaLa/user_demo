@@ -15,7 +15,6 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.netease.vcloud.auth.BasicCredentials;
 import com.netease.vcloud.auth.Credentials;
 import com.netease.vcloud.client.VcloudClient;
-import com.netease.vcloud.upload.demo.UploadVideoDemo;
 import com.netease.vcloud.upload.param.QueryVideoIDorWatermarkIDParam;
 import com.netease.vcloud.util.FileUtil;
 import org.apache.log4j.Logger;

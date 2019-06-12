@@ -14,7 +14,7 @@ public class PropertiesUtil implements Serializable {
     public static Properties props = null;
     static{
 //        原来的debug模式是通过system.propertiy开启的。这个以后应该是Maven控制的
-        Resource moderes = new ClassPathResource("/conf/system.properties");
+        Resource moderes = new ClassPathResource("/conf/redisConfig.properties");
         EncodedResource resmoderes = new EncodedResource(moderes,"UTF-8");
         try {
             Properties modeprop = PropertiesLoaderUtils.loadProperties(resmoderes);
