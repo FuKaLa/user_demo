@@ -12,7 +12,8 @@ public class lambda {
     private final static int a = 0;
 
     public static void main(String[] args) {
-        lambda.Move();
+        //lambda.Move();
+        VolatileDemo();
     }
 
     private static void Move() {
@@ -35,4 +36,26 @@ public class lambda {
             });
         }
     }
+
+    private  static int id = 0;
+    //volatile 关键字测试
+    //private volatile static int id = 0;
+
+    private static void VolatileDemo() {
+        ExecutorService executorService = null;
+
+        executorService = Executors.newFixedThreadPool(100);
+
+        for (int i = 0; i <= 100; i++) {
+            executorService.submit(new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    System.out.println(Thread.currentThread().getName());
+                    System.out.println(id++);
+                    return Thread.currentThread().getName();
+                }
+            });
+        }
+    }
 }
+
