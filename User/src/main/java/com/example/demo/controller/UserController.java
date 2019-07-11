@@ -12,11 +12,6 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.netease.vcloud.auth.BasicCredentials;
-import com.netease.vcloud.auth.Credentials;
-import com.netease.vcloud.client.VcloudClient;
-import com.netease.vcloud.upload.param.QueryVideoIDorWatermarkIDParam;
-import com.netease.vcloud.util.FileUtil;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -76,74 +71,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/filePath")
-    public void filePath() {
-        String appKey = "1ddb366df3cecf01e5bff296a152ef8c";
-        String appSecret = "5025fb10757f";
 
-        Credentials credentials;
-        credentials = new BasicCredentials(appKey, appSecret);
-        VcloudClient vclient = new VcloudClient(credentials);
-
-
-        try {
-            /*请输入上传文件路径*/
-            String filePath = "E:\\upload\\test.mp4";
-            //String filePath = "e:\\image_20160711145925.png";
-
-            Map<String, Object> initParamMap = new HashMap<String, Object>();
-			/*输入上传文件的相关信息 */
-			/* 上传文件的原始名称（包含后缀名） 此参数必填*/
-            initParamMap.put("originFileName", FileUtil.getFileName(filePath));
-		     /* 用户命名的上传文件名称  此参数非必填*/
-            initParamMap.put("userFileName", "test.mp4");
-
-		     /* 视频所属的类别ID（不填写为默认分类）此参数非必填*/
-            // initParamMap.put("typeId", new Long(1056));
-
-		     /* 频所需转码模板ID（不填写为默认模板） 此参数非必填*/
-            // initParamMap.put("presetId", new Long(2007));
-
-		     /* 转码成功后回调客户端的URL地址（需标准http格式）  此参数非必填*/
-            //initParamMap.put("callbackUrl", "");
-
-		     /* 上传视频的描述信息  此参数非必填*/
-            //initParamMap.put("description", "love.mp4");
-
-		     /* 上传视频的视频水印Id 此参数非必填*/
-            //initParamMap.put("watermarkId", new Long(1));
-
-            /** 上传成功后回调客户端的URL地址（需标准http格式）   此参数非必填*/
-
-            initParamMap.put("uploadCallbackUrl", "http://t-kshop.test.xhjiayou.cn/usercore/getStationByCardNo");
-
-            /** 用户自定义信息，会在上传成功或转码成功后通过回调返回给用户    此参数非必填 */
-            // initParamMap.put("userDefInfo", null);
-
-
-            QueryVideoIDorWatermarkIDParam queryVideoIDParam = vclient.uploadVideo(filePath, initParamMap);
-            if (null != queryVideoIDParam) {
-                logger.info("[UploadDemo] upload video successfully and the vid is " + queryVideoIDParam.getRet().getList().get(0).getVid());
-                logger.info("[UploadDemo] upload video successfully and the imgid is " + queryVideoIDParam.getRet().getList().get(0).getImgId());
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /*public static void main(String [] args){
-        try{
-            Class.forName("oracle.jdbc.OracleDriver");
-            String url = "jdbc:oracle:thin:@172.16.22.10:1521:ecologyzd";
-            System.out.println(url);
-            Connection coon = DriverManager.getConnection(url,"ecology","weaverzd");
-            System.out.println(coon);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-    }*/
 
 
     @RequestMapping("/showUser")
