@@ -1,21 +1,30 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.example.demo.Utils;
+import com.example.demo.utils.Idcard;
+
+import java.net.URLEncoder;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 使用base64简单加盐加密
  */
 public class url加密 {
 
+    static {
+        System.out.println("1");
+    }
+    public url加密(){
+        System.out.println("2");
+    }
+    {
+        System.out.println("3");
+    }
 
-    public static void main(String[] args){
-        String salt = "abcd1234";
-        String originalInput = "www.baidu.com";
-        originalInput = originalInput +salt;
-        String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
-        System.out.println("原文为------>"+originalInput);
-        System.out.println("加密完后---->"+encodedString);
-        System.out.println("解密完后---->"+new String(Base64.getDecoder().decode(encodedString)));
-        //解密完以后把盐值截取调
+    public static void main(String[] args) {
+        url加密 url加密= new url加密();
     }
 }
