@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.utils.MD5EncodeUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,7 @@ public class TestController {
         /*String pattern = "^^(?![a-zA-z]+$)(?!\\d+$)(?![^\\W]+$)(?![a-zA-z\\d]+$)(?![a-zA-z!^\\W]+$)(?![\\d!\\W]+$)[a-zA-Z\\d!^\\W]{8,}$";
         String password = "^wwwweASFF12";
         System.out.println(Pattern.matches(pattern, password));*/
-       Map mapPost =  new HashMap();
+      /* Map mapPost =  new HashMap();
         mapPost.put("code","123");
         mapPost.put("card_id","123");
         mapPost.put("bonus","12343");
@@ -30,13 +31,13 @@ public class TestController {
         mapPost1.put("is_notify_bonus",false);
         mapPost.put("notify_optional",mapPost1);
 
-        System.out.println(JSONObject.toJSONString(mapPost));
+        System.out.println(JSONObject.toJSONString(mapPost));*/
         /*String number = "7.0000000000000007E-2";
 
 
         Double code = 0.07;*/
 
-
+        System.out.println(MD5EncodeUtil.myMD5Encode("8888116002000307337111111").substring(8,24));
 
 
         //System.out.println(Double.parseDouble(number));

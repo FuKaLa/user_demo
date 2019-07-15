@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.Utils;
 import com.example.demo.entity.IncomeSumPojo;
 
+import com.example.demo.service.UserService;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -15,6 +16,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,9 +40,9 @@ import java.util.List;
 @RequestMapping("/client")
 public class UserController {
     public static final Logger logger = Logger.getLogger(UserController.class);
-    /*@Autowired
+    @Autowired
     private UserService userService;
-*/
+
 
   /*  @RequestMapping("/showUser")
     @ResponseBody
@@ -70,15 +72,28 @@ public class UserController {
         System.out.println(jsonObject);
     }
 
+    /*@Scheduled(cron="0/1 * * * * ? ") //每1秒执行一次
+    private void  test(){
+        logger.info(Thread.currentThread().getId()+"---111111111111111");
+    }
+    @Scheduled(cron="0/1 * * * * ? ") //每1秒执行一次
+    private void  testq(){
+        logger.info(Thread.currentThread().getId()+"---2222222222222");
+    }*/
 
 
 
 
     @RequestMapping("/showUser")
     @ResponseBody
-    public void selectUser(HttpServletRequest request) {
-        String contexPath= request.getSession().getServletContext().getRealPath("/uplade/test-errer.log");
-        System.out.println(contexPath);
+    public ModelAndView selectUser(HttpServletRequest request) {
+        System.out.println("111111111111111");
+        ModelAndView modelAndView = new ModelAndView("index");
+        userService.setUser();
+        modelAndView.addObject("list", "ABCD");
+        modelAndView.addObject("list2", "这是第二个集合");
+        System.out.println("222");
+        return modelAndView;
     }
 
     /*public static void main(String[] args) {

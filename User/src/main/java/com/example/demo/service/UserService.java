@@ -54,6 +54,12 @@ public class UserService {
         long end = System.currentTimeMillis();
         logger.info("完成任务三，耗时：" + (end - start) + "毫秒");
     }
+    @Async
+    public void setUser() {
+        for (int i = 0;i <10;i++){
+            System.out.println(i);
+        }
+    }
 
     /*public List selectList(List<User> list) {
         return userMapper.selectList(list);

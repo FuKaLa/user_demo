@@ -13,9 +13,6 @@
 </head>
 <body>
 
-    <h1>姓名：${list.name}</h1>
-    <p>性别：${list.sex}</p>
-    <a>年龄：${list.age}</a>
-    <h1>${list2}</h1>
+    <h1>姓名：${list}</h1>
 </body>
 </html>
