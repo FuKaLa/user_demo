@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,14 +73,14 @@ public class UserController {
         System.out.println(jsonObject);
     }
 
-    /*@Scheduled(cron="0/1 * * * * ? ") //每1秒执行一次
+    @Scheduled(cron="0/1 * * * * ? ") //每1秒执行一次
     private void  test(){
         logger.info(Thread.currentThread().getId()+"---111111111111111");
     }
     @Scheduled(cron="0/1 * * * * ? ") //每1秒执行一次
     private void  testq(){
         logger.info(Thread.currentThread().getId()+"---2222222222222");
-    }*/
+    }
 
 
 

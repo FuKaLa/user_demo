@@ -1,15 +1,17 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.utils.Idcard;
 import com.example.demo.utils.MD5EncodeUtil;
+import org.springframework.data.annotation.Id;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
+
+import static javafx.scene.input.KeyCode.T;
 
 
 public class TestController {
@@ -37,9 +39,12 @@ public class TestController {
 
         Double code = 0.07;*/
 
-        System.out.println(MD5EncodeUtil.myMD5Encode("8888116002000307337111111").substring(8,24));
+        System.out.println(Idcard.isValid("430425198805151862"));
+        System.out.println(Idcard.generateID());
+        System.out.println(getDateBirthday("350802198808285516"));
+        //data281002920datatime430425198805151862
 
-
+        System.out.println(send().trim());
         //System.out.println(Double.parseDouble(number));
 
       /* String a = "23a";
@@ -66,6 +71,26 @@ public class TestController {
         if (compare_date(time, time2) < 0) {
             System.out.println("1111");
         }*/
+    }
+    private static Date getDateBirthday(String id) {
+        Date birthDate = new Date();
+        try {
+            String birth = id.length() == 15 ? "19" + id.substring(6, 12) : id.substring(6, 14);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            birthDate = sdf.parse(birth);
+        } catch (ParseException e) {
+            return new Date();
+        }
+        return birthDate;
+    }
+    public static String send(String... len) {
+       Arrays.sort(len);
+        StringBuffer sb =  new StringBuffer();
+        for (String s:len
+             ) {
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     public static String makeRandomPassword(int len) {
