@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -59,6 +60,10 @@ public class UserService {
         for (int i = 0;i <10;i++){
             System.out.println(i);
         }
+    }
+
+    public List<Map<String,Object>> getUserDetailListExcel(Map param, int i, int i1) {
+        return null;
     }
 
     /*public List selectList(List<User> list) {
