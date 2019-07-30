@@ -234,7 +234,7 @@ public class UserController {
         if(!"0".equals(msg.getString("OPEN_TICKET_TYPE")) && !"1".equals(msg.getString("OPEN_TICKET_TYPE"))){
             System.out.println("11111111");
         }*/
-        String url = "http://vcloud.163.com/app/vod/upload/init";
+       /* String url = "http://vcloud.163.com/app/vod/upload/init";
         Map map = new HashMap();
         map.put("originFileName","text.mp4");
         map.put("userFileName","text.mp4");
@@ -243,8 +243,15 @@ public class UserController {
 
         String uri = "http://wanproxy.127.net/lbs?version=1.0&bucketname="+JSONObject.parseObject(returnString).getString("bucket");
         String returnS = Utils.doPostJson(uri,JSONObject.toJSONString(map));
-        System.out.println(returnS);
-
+        System.out.println(returnS);*/
+        System.out.println("12123r55555555555555");
+    try {
+        System.out.println(1/0);
+        Thread.sleep(5000);
+    }catch (Exception e){
+        e.printStackTrace();
+    }
+        System.out.println("1231231231231231231231231231231");
         //List<Invoice.RequestBean> cards = invoice.getCards();
         //Invoice.RequestBean requestBean = cards.get(0);
         /*if (invoice.getCards().size() == 0) {
