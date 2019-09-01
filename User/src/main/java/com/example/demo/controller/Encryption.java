@@ -10,6 +10,7 @@ package com.example.demo.controller;
  * A服务通过固定的秘钥对参数进行加密，生成byte数组传给B服务
  * B服务拿到参数后，通过固定salt和固定秘钥对参数进行解密
  * 解密就是加密的逆运算
+ * machuang
  */
 public class Encryption {
     public static void main(String[] args)  {
