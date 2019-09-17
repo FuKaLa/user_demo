@@ -69,8 +69,9 @@ public class UserController {
     }
 
     @RequestMapping("/callback")
-    public void callback(@RequestBody JSONObject jsonObject) {
-        System.out.println(jsonObject);
+    public String callback() {
+        System.out.println("qqqq");
+        return "这是一个测试类";
     }
 
     @Scheduled(cron="0/1 * * * * ? ") //每1秒执行一次

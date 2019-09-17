@@ -13,9 +13,12 @@ public class SendDDmsg {
 
         Map<String,Object> json=new HashMap();
         Map<String,Object> text=new HashMap();
-        json.put("msgtype","text");
-        text.put("content","这是一条测试推送钉钉消息");
-        json.put("text",text);
+        json.put("msgtype","link");
+        text.put("text","刚刚上传了\"+11+\"条 的回款信息，请点击查看详情");
+        text.put("messageUrl","www.baidu.com");
+        text.put("title","内容");
+        text.put("picUrl","http://img125.nipic.com/file/20190911/28918767_200220146000_1.jpg");
+        json.put("link",text);
         // 发送post请求
         String response = SendHttps.sendPostByMap(dingDingToken, json);
         System.out.println("相应结果："+response);
