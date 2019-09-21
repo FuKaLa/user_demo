@@ -123,6 +123,25 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun.pdfview/pdfrenderer -->
+
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>fontbox</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+		<dependency>
+		<groupId>commons-logging</groupId>
+		<artifactId>commons-logging</artifactId>
+		<version>1.2</version>
+		</dependency>
 		<dependency>
 		<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>

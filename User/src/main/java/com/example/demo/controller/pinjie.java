@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dingtalk.api.DefaultDingTalkClient;
+import com.dingtalk.api.DingTalkClient;
+import com.dingtalk.api.request.OapiCspaceGrantCustomSpaceRequest;
 import com.dingtalk.api.request.OapiGettokenRequest;
 import com.dingtalk.api.request.OapiProcessinstanceCreateRequest;
+import com.dingtalk.api.response.OapiCspaceGrantCustomSpaceResponse;
 import com.dingtalk.api.response.OapiGettokenResponse;
 import com.dingtalk.api.response.OapiProcessinstanceCreateResponse;
 import com.example.demo.entity.ProcessInstanceInputVO;
@@ -32,10 +35,41 @@ public class pinjie {
         OapiGettokenResponse response = client.execute(request);
         System.out.println(response.getAccessToken());
         //创建审批流
+
+        DingTalkClient clientq = new DefaultDingTalkClient("https://oapi.dingtalk.com/cspace/grant_custom_space");
+        OapiCspaceGrantCustomSpaceRequest request1 = new OapiCspaceGrantCustomSpaceRequest();
+        request1.setType("add");
+        request1.setUserid("216110465039218508");
+        request1.setPath("/");
+        request1.setDuration(10000L);
+        request1.setHttpMethod("GET");
+        OapiCspaceGrantCustomSpaceResponse response1 = clientq.execute(request1,response.getAccessToken());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ProcessInstanceInputVO oapiProcessinstanceCreateRequest = new ProcessInstanceInputVO();
         oapiProcessinstanceCreateRequest.setOriginatorUserId("216110465039218508");
         // 审批流表单参数，设置各表单项值
         List<OapiProcessinstanceCreateRequest.FormComponentValueVo> formComponentValues = new ArrayList<OapiProcessinstanceCreateRequest.FormComponentValueVo>();
+        String[] names = {"申请单号","开票类型","行政组织","申请金额","票据类型","业务类型","销售名称","部门","业绩归属","开票信息-公司名称","地址","电话",
+                "税号","开户行名称","开户行账号","客户名称","备注","附件"};
+        //List<OapiProcessinstanceCreateRequest.FormComponentValueVo> valueVoList = joinForm(names, new ArrayList<>());
+        String[] detailName={"产品名称","信息服务费","信息服务费","接口调试费","签订总金额","已开票金额","已回款金额","本次申请金额"};
         OapiProcessinstanceCreateRequest.FormComponentValueVo vo1 = new OapiProcessinstanceCreateRequest.FormComponentValueVo();
         vo1.setName("申请单号");
         vo1.setValue("216110465039218508");
@@ -77,7 +111,6 @@ public class pinjie {
         vo10.setName("业绩归属");
         vo10.setValue("业绩归属");
         formComponentValues.add(vo10);
-
         OapiProcessinstanceCreateRequest.FormComponentValueVo vo11 = new OapiProcessinstanceCreateRequest.FormComponentValueVo();
         vo11.setName("开票信息-公司名称");
         vo11.setValue("开票信息-公司名称");
@@ -103,6 +136,7 @@ public class pinjie {
         vo15.setValue("开户行名称");
         formComponentValues.add(vo15);
 
+
         OapiProcessinstanceCreateRequest.FormComponentValueVo vo16 = new OapiProcessinstanceCreateRequest.FormComponentValueVo();
         vo16.setName("开户行账号");
         vo16.setValue("开户行账号");
@@ -118,17 +152,17 @@ public class pinjie {
         vo18.setValue("备注");
         formComponentValues.add(vo18);
 
+
+
         // 附件
         OapiProcessinstanceCreateRequest.FormComponentValueVo attachmentComponent = new OapiProcessinstanceCreateRequest.FormComponentValueVo();
-        JSONObject attachmentJson = new JSONObject();
-        attachmentJson.put("fileId", "6433971140");
-        attachmentJson.put("fileName", "2644.JPG");
-        attachmentJson.put("fileType", "jpg");
-        attachmentJson.put("fileSize", "333");
+//        JSONObject attachmentJson = new JSONObject();
+//        attachmentJson.put("fileName", "www.baidu.com");
+//
+//        JSONArray array = new JSONArray();
+//        array.add(attachmentJson);
 
-        JSONArray array = new JSONArray();
-        array.add(attachmentJson);
-        attachmentComponent.setValue(array.toJSONString());
+        attachmentComponent.setValue("www.baidu.com");
         attachmentComponent.setName("附件");
         formComponentValues.add(attachmentComponent);
         List<OapiProcessinstanceCreateRequest.FormComponentValueVo>  details = new ArrayList<OapiProcessinstanceCreateRequest.FormComponentValueVo>();
@@ -170,6 +204,14 @@ public class pinjie {
         vo4.setName("明细");
         vo4.setValue(JSON.toJSONString(Arrays.asList(details)));
         formComponentValues.add(vo4);
+
+        OapiProcessinstanceCreateRequest.FormComponentValueVo vo19 = new OapiProcessinstanceCreateRequest.FormComponentValueVo();
+        vo19.setName("图片");
+        ArrayList list= new ArrayList<>();
+        list.add("https://img.alicdn.com/tfs/TB10oldD6DpK1RjSZFrXXa78VXa-240-240.png");
+        list.add("http://s3-dev.sinoiov.com/api/urlBrowse/eimp/eimp-crm_ba614ccd-64a1-4437-bf61-5e54e66b3527.png?cdn=0");
+        vo19.setValue(JSON.toJSONString(JSONArray.parseArray(JSON.toJSONString(list))));
+        formComponentValues.add(vo19);
         startProcessInstance(oapiProcessinstanceCreateRequest,formComponentValues,response.getAccessToken());
 
     }
@@ -189,5 +231,18 @@ public class pinjie {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        }
+
+
+
+        public static  List<OapiProcessinstanceCreateRequest.FormComponentValueVo> joinForm(String[] names,List<String> values){
+            List<OapiProcessinstanceCreateRequest.FormComponentValueVo> valueVos = new ArrayList<>();
+            for (int i= 0;i<names.length;i++){
+                OapiProcessinstanceCreateRequest.FormComponentValueVo vo = new OapiProcessinstanceCreateRequest.FormComponentValueVo();
+                vo.setName(names[i]);
+                vo.setValue(values.get(i));
+                valueVos.add(vo);
+            }
+            return valueVos;
         }
     }
