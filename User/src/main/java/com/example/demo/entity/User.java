@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 6822749436238325284L;
-    private String id;
+    private Integer id;
 
     private String name;
 
     private String sex;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -34,9 +34,11 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public User(String id, String name, String sex) {
+    public User(Integer id, String name, String sex) {
         this.id = id;
         this.name = name;
         this.sex = sex;
     }
+
+
 }

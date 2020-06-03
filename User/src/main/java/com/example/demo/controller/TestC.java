@@ -1,14 +1,9 @@
 package com.example.demo.controller;
 
+import java.math.BigDecimal;
+
 public class TestC {
     public static void main(String[] args) {
-        // TODO: 2019/9/10 0010  
-        String url = "/machaung/userInfo/save/add";
-        String[] urls = url.split("/");
-        StringBuffer urlEnd = new StringBuffer();
-        for (int i = 2;i<urls.length;i++){
-            urlEnd.append("/").append(urls[i]);
-        }
-        System.out.println(urlEnd);
+        System.out.println(new BigDecimal("575.22").multiply(new BigDecimal("0.6").divide(new BigDecimal(100))).setScale(2, BigDecimal.ROUND_UP).doubleValue());
     }
 }

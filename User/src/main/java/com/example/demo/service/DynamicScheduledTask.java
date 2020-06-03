@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.UserController;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
